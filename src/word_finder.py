@@ -5,7 +5,7 @@ TRANSLITERATE = False
 def main():
   james_file = open("james_greek.txt", "r")
   words = []
-  print_chapters = []
+  print_chapters = [4]
   # print_chapters = [1,2,3,4,5]
   counter = 0
   for line in james_file:
@@ -38,65 +38,54 @@ def main():
       verse_words.clear()
       continue
     next_word = word.strip().lower()
-    for special_char in "⸃·,.⸀":  # DIY regex
+    for special_char in "⸂⸃·,.⸀":  # DIY regex
       next_word = next_word.replace(special_char, "")
     if len(next_word) > 0:
       verse_words.append(next_word + " " + current_verse)
   all_words += verse_words  # Verses are only added when the next verse is seen, so add last verse.
 
-  # Words used twice in succession - chaining words
-  potential_chaining_words = []
-  sorted_all_words = sorted(all_words)
-  prior_verse = 0
-  prior_word = ""
-  for word in sorted_all_words:
-    current_verse, greek_word = get_verse_index(word)
-    if abs(current_verse - prior_verse) <= 1 and len(greek_word) > 4:
-      potential_chaining_words.append(prior_word + "(" + str(prior_verse//100) + ":" + str(prior_verse % 100) + ")" + "-->" + word)
-    prior_verse = current_verse
-    prior_word = greek_word
-
-  potential_chaining_words.sort(key=lambda word: get_verse_index(word))
-  for word in potential_chaining_words:
-    print(word)
-
-
-  RUN_ONCE = True
+  RUN_ONCE = False
+  AUTO_SELECTION = None
+  AUTO_SELECTION = "8b"  # sometimes I know what I want in advance.
+  print("0. Run the 'potential chaining words' script")
+  print("1. ἀδελφὸς - Brothers or sisters")
+  print("2. τέλειος - Perfect, mature, complete, whole")
+  print("3. γλῶσσαν - The tongue, language")
+  print("4. ολος - whole")
+  print("5. ὑπομονὴ - Perserverance, endurance")
+  print("6. πειρασμοῖς - Trials")
+  print("7. πειραζόμενος - Temptations")
+  print("8. γινώσκοντες - Knowing / experiencing")
+  print("8b. γινώσκοντες - Knowing / experiencing")
+  print("9. λειπόμενοι - Lacking")
+  print("10. πόλεμοι καὶ μάχαι - Wars and battles")
+  print("11. σοφίας - Wisdom")
+  print("12. ἁμαρτίαν - Sin")
+  print("13. πλούσιος - Rich")
+  print("14. ἔργων - Works, deeds")
+  print("15. ταπεινὸς - Humble / low position")
+  print("16. πραΰτητι - Humble / gentleness / meekness")
+  print("17. λόγῳ - Word")
+  print("18. νομος - Law")
+  print("19. κρινω - Judging")
+  print("20. αὐτοῦ - His")
   while True:
-    print("Select an option or type a word:")
-    print("1. ἀδελφὸς - Brothers or sisters")
-    print("2. τέλειος - Perfect, mature, complete, whole")
-    print("3. γλῶσσαν - The tongue, language")
-    print("4. ολος - whole")
-    print("5. ὑπομονὴ - Perserverance, endurance")
-    print("6. πειρασμοῖς - Trials")
-    print("7. πειραζόμενος - Temptations")
-    print("8. γινώσκοντες - Knowing / experiencing")
-    print("9. λειπόμενοι - Lacking")
-    print("10. πόλεμοι καὶ μάχαι - Wars and battles")
-    print("11. σοφίας - Wisdom")
-    print("12. ἁμαρτίαν - Sin")
-    print("13. πλούσιος - Rich")
-    print("14. ἔργων - Works, deeds")
-    print("15. ταπεινὸς - Humble / low position")
-    print("16. πραΰτητι - Humble / gentleness / meekness")
-    print("17. λόγῳ - Word")
-    print("18. νομος - Law")
-    print("19. κρινω - Judging")
-    print("20. αὐτοῦ - His")
-
-
-    print(len(all_words))
-
-    selection = input("Open or word: ")
+    if AUTO_SELECTION is None:
+      print("Select an option or type a word:")
+      selection = input("Open or word: ")
+    else:
+      selection = AUTO_SELECTION
+      print("Running auto selection", AUTO_SELECTION)
     if selection == "":
       break
+    elif selection == "0":
+      potential_chaining_words(all_words)
     elif selection == "1":
       print_matches(all_words, ["τέλ", "τελ"])
     elif selection == "2":
       print_matches(all_words, ["ἀδελφ", "αδελφ"])
     elif selection == "3":
-      print_matches(all_words, ["γλῶσσαν", "γλῶ", "γλω"])
+      print_matches(all_words, ["γλῶσσ"])
     elif selection == "4":
       print_matches(all_words, ["ὁλό", "ὅλο"])
     elif selection == "5":
@@ -107,6 +96,8 @@ def main():
       print_matches(all_words, ["πειραζόμενος", "πειραζόμ", "πειράζομαι", "πειράζει", "ἀπείραστός"])
     elif selection == "8":
       print_matches(all_words, ["γινωσκω", "γινωσκέτω", "γιν", "γνῶναι"])
+    elif selection == "8b":
+      print_matches(all_words, ["εἰδ", "ἔστω", "οἴδ"])
     elif selection == "9":
       print_matches(all_words, ["λειπ", "λέιπ", "λείπ", "λέίπ"])
       print_matches(all_words, ["λει", "λέι", "λεί", "λέί"])
@@ -135,7 +126,7 @@ def main():
 
     else:
       print_matches(all_words, [selection])
-    if RUN_ONCE:
+    if RUN_ONCE or AUTO_SELECTION is not None:
       break
     print("-----------------------------")
 
@@ -157,5 +148,23 @@ def get_verse_index(word):
   chapter_and_verse = word_and_verse[1].split(":")
   return int(chapter_and_verse[0]) * 100 + int(chapter_and_verse[1]), word_and_verse[0]
 
+
+def potential_chaining_words(all_words):
+
+  # Words used twice in succession - chaining words
+  potential_chaining_words = []
+  sorted_all_words = sorted(all_words)
+  prior_verse = 0
+  prior_word = ""
+  for word in sorted_all_words:
+    current_verse, greek_word = get_verse_index(word)
+    if abs(current_verse - prior_verse) <= 1 and len(greek_word) > 4:
+      potential_chaining_words.append(prior_word + "(" + str(prior_verse//100) + ":" + str(prior_verse % 100) + ")" + "-->" + word)
+    prior_verse = current_verse
+    prior_word = greek_word
+
+  potential_chaining_words.sort(key=lambda word: get_verse_index(word))
+  for word in potential_chaining_words:
+    print(word)
 
 main()
