@@ -46,7 +46,7 @@ def main():
 
   RUN_ONCE = False
   AUTO_SELECTION = None
-  AUTO_SELECTION = "8b"  # sometimes I know what I want in advance.
+  AUTO_SELECTION = "7"  # sometimes I know what I want in advance.
   print("0. Run the 'potential chaining words' script")
   print("1. ἀδελφὸς - Brothers or sisters")
   print("2. τέλειος - Perfect, mature, complete, whole")
