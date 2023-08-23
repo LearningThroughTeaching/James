@@ -31,8 +31,8 @@ def main():
 
     # find_strongs(all_words, ["g3956"], print_only=True) # All
     # find_strongs(all_words, ["g79", "g80"], print_only=True)  # adelphos
-    # find_strongs(all_words, ["g5046", "g5055", "g5056"], print_only=True)  # adelphos
-    # find_strongs(all_words, ["g5046", "g5055", "g5056", "g658", "g5048"], print_only=True)  # adelphos + bonus
+    # find_strongs(all_words, ["g5046", "g5055", "g5056"], print_only=True)  # teleios
+    # find_strongs(all_words, ["g5046", "g5055", "g5056", "g658", "g5048"], print_only=True)  # teleios + bonus
     # find_strongs(all_words, ["g5046", "g5055", "g5056"], print_only=True)  # adelphos
     # find_strongs(all_words, ["g3648", "g3650"], print_only=True)  # Whole
     # find_strongs(all_words, ["g3986"], print_only=True)  # Trials
@@ -41,9 +41,9 @@ def main():
     # find_strongs(all_words, ["g5278", "g5281" ], print_only=True)  # Perseverance
     # find_strongs(all_words, ["g3985"], print_only=True)  # Perseverance
     # find_strongs(all_words, ["g1097"], print_only=True)  # Knowing ginosko
-    find_strongs(all_words, ["g1492"], print_only=True)  # Knowing eido
+    # find_strongs(all_words, ["g1492"], print_only=True)  # Knowing eido
 
-    print_range(all_words, start_ch=1, start_v=19)
+    # print_range(all_words, start_ch=1, start_v=19)
     # print_range(all_words, start_ch=1, start_v=2, end_ch=1, end_v=4)
     #print_teaching(all_words, 2.1)
 
