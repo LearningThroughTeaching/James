@@ -3,7 +3,7 @@ import json
 
 class GreekWord:
 
-    def __init__(self, greek_word, english_text, chapter, verse, word_index, fisher_teaching, strongs_number, strongs_word, strongs_data):
+    def __init__(self, greek_word, english_text, chapter, verse, word_index, i, fisher_teaching, strongs_number, strongs_word, strongs_data):
         """
          Creates a Greek Word using data available from the james.json plus dictionary file.
          """
@@ -12,6 +12,7 @@ class GreekWord:
         self.chapter = chapter
         self.verse = verse
         self.word_index = word_index
+        self.i = i
         self.fisher_teaching = fisher_teaching
         self.strongs_number = strongs_number
         self.strongs_word = strongs_word
@@ -30,9 +31,9 @@ def main():
     all_words = load_james()
 
     # find_strongs(all_words, ["g3956"], print_only=True) # All
-    # find_strongs(all_words, ["g79", "g80"], print_only=True)  # adelphos
+    find_strongs(all_words, ["g79", "g80"], print_only=True)  # adelphos
     # find_strongs(all_words, ["g5046", "g5055", "g5056"], print_only=True)  # teleios
-    # find_strongs(all_words, ["g5046", "g5055", "g5056", "g658", "g5048"], print_only=True)  # teleios + bonus
+    find_strongs(all_words, ["g5046", "g5055", "g5056", "g658", "g5048"], print_only=True)  # teleios + bonus
     # find_strongs(all_words, ["g5046", "g5055", "g5056"], print_only=True)  # adelphos
     # find_strongs(all_words, ["g3648", "g3650"], print_only=True)  # Whole
     # find_strongs(all_words, ["g3986"], print_only=True)  # Trials
@@ -79,18 +80,20 @@ def load_james():
         current_fisher_teaching = get_fisher_teaching(current_chapter, current_verse)
         words = single_verse["verse"]
 
+        word_index = 0
         for json_word in words:
             greek_word = json_word["word"]
             english_text = json_word["text"]
             # chapter = chapter
             # verse = verse
-            word_index = json_word["i"]
+            i = json_word["i"]
             # fisher_teaching = fisher_teaching
             strongs_number = json_word["number"]
             # strongs_word = strongs_word
             # strongs_data = strongs_data
-            greek_word = GreekWord(greek_word, english_text, current_chapter, current_verse, word_index, current_fisher_teaching, strongs_number, None, None)
+            greek_word = GreekWord(greek_word, english_text, current_chapter, current_verse, word_index, i, current_fisher_teaching, strongs_number, None, None)
             greek_words.append(greek_word)
+            word_index += 1
 
     james_json_file.close()
     return greek_words
